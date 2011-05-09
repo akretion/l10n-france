@@ -22,6 +22,7 @@
 
 import country
 import product
+import tax
 import partner_address
 import intrastat_common
 
