@@ -19,6 +19,7 @@
     <field name="charset">iso8859_15</field>
     <field name="parser_state">loc</field>
     <field name="parser_loc">account_balance_ebp_csv_export/report/trial_balance_ebp_csv.py</field>
+    <field name="tml_source">file</field>
     <field name="content_fname">csv</field>
 </record>
 
