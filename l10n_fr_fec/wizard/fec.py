@@ -105,7 +105,11 @@ class account_fr_fec(orm.TransientModel):
             aa.name AS CompteLib,
             rp.id AS CompAuxNum,
             rp.name AS CompAuxLib,
-            am.ref AS PieceRef,
+            CASE WHEN am.ref IS null OR am.ref = ''
+            THEN '-'
+            ELSE replace(am.ref, '|', '/')
+            END
+            AS PieceRef,
             am.date AS PieceDate,
             aml.name AS EcritureLib,
             aml.debit AS Debit,
