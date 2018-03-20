@@ -96,13 +96,18 @@ class AccountFrFec(models.TransientModel):
             aa.code AS CompteNum,
             regexp_replace(
             aa.name, E'[\n\r\t\|]+', '/', 'g') AS CompteLib,
-            CASE WHEN rp.ref IS null OR rp.ref = ''
-            THEN 'ID ' || rp.id
-            ELSE rp.ref
+            CASE WHEN aa.code ilike '411%%'
+                 THEN '01' || left(upper(replace(rp.name, ' ', '')), 6)
+                 WHEN aa.code ilike '401%%'
+                 THEN '08' || left(upper(replace(rp.name, ' ', '')), 6)
+            ELSE ''
             END
             AS CompAuxNum,
-            regexp_replace(
-            rp.name, E'[\n\r\t\|]+', '/', 'g') AS CompAuxLib,
+            CASE WHEN aa.code ilike '411%%' or aa.code ilike '401%%'
+                 THEN regexp_replace(rp.name, E'[\n\r\t\|]+', '/', 'g')
+            ELSE ''
+            END
+            as CompAuxLib,
             CASE WHEN am.ref IS null OR am.ref = ''
             THEN '-'
             ELSE regexp_replace(
