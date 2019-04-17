@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    Report intrastat service module for Odoo
-#    Copyright (C) 2015 Akretion (http://www.akretion.com)
+#    Report intrastat service module for OpenERP
+#    Copyright (C) 2014 Akretion (http://www.akretion.com)
 #    @author Alexis de Lattre <alexis.delattre@akretion.com>
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,44 +20,25 @@
 #
 ##############################################################################
 
+from openupgradelib import openupgrade
 
-def migrate(cr, version):
-    if not version:
-        return
 
-    # LINES
-    cr.execute(
-        'ALTER SEQUENCE "l10n_fr_report_intrastat_service_line_id_seq" RENAME '
-        'TO "l10n_fr_intrastat_service_declaration_line_id_seq"')
+table_renames = [
+    ('l10n_fr_report_intrastat_service_line',
+     'l10n_fr_intrastat_service_declaration_line'),
+    ('l10n_fr_report_intrastat_service',
+     'l10n_fr_intrastat_service_declaration'),
+    ]
 
-    cr.execute(
-        'ALTER TABLE "l10n_fr_report_intrastat_service_line" RENAME TO '
-        '"l10n_fr_intrastat_service_declaration_line"')
+model_renames = [
+    ('l10n.fr.report.intrastat.service.line',
+     'l10n.fr.intrastat.service.declaration.line'),
+    ('l10n.fr.report.intrastat.service',
+     'l10n.fr.intrastat.service.declaration'),
+    ]
 
-    cr.execute(
-        "UPDATE ir_model SET "
-        "model='l10n.fr.intrastat.service.declaration.line' "
-        "WHERE model='l10n.fr.report.intrastat.service.line'")
 
-    cr.execute(
-        "UPDATE ir_model_fields SET "
-        "relation='l10n.fr.intrastat.service.declaration.line' "
-        "WHERE relation='l10n.fr.report.intrastat.service.line'")
-
-    # DECLARATION
-    cr.execute(
-        'ALTER SEQUENCE "l10n_fr_report_intrastat_service_id_seq" RENAME TO '
-        '"l10n_fr_intrastat_service_declaration_id_seq"')
-
-    cr.execute(
-        'ALTER TABLE "l10n_fr_report_intrastat_service" RENAME TO '
-        '"l10n_fr_intrastat_service_declaration"')
-
-    cr.execute(
-        "UPDATE ir_model SET model='l10n.fr.intrastat.service.declaration' "
-        "WHERE model='l10n.fr.report.intrastat.service'")
-
-    cr.execute(
-        "UPDATE ir_model_fields "
-        "SET relation='l10n.fr.intrastat.service.declaration' "
-        "WHERE relation='l10n.fr.report.intrastat.service'")
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    openupgrade.rename_models(env.cr, model_renames)
+    openupgrade.rename_tables(env.cr, table_renames)

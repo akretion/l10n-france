@@ -20,41 +20,21 @@
 #
 ##############################################################################
 
+from openupgradelib import openupgrade
 
-def migrate(cr, version):
-    if not version:
-        return
 
-    cr.execute(
-        'ALTER SEQUENCE "report_intrastat_service_line_id_seq" RENAME TO '
-        '"l10n_fr_report_intrastat_service_line_id_seq"')
+table_renames = [
+    ('report_intrastat_service_line', 'l10n_fr_report_intrastat_service_line'),
+    ('report_intrastat_service', 'l10n_fr_report_intrastat_service'),
+    ]
 
-    cr.execute(
-        'ALTER TABLE "report_intrastat_service_line" RENAME TO '
-        '"l10n_fr_report_intrastat_service_line"')
+model_renames = [
+    ('report.intrastat.service.line', 'l10n.fr.report.intrastat.service.line'),
+    ('report.intrastat.service', 'l10n.fr.report.intrastat.service'),
+    ]
 
-    cr.execute(
-        "UPDATE ir_model SET model='l10n.fr.report.intrastat.service.line' "
-        "WHERE model='report.intrastat.service.line'")
 
-    cr.execute(
-        "UPDATE ir_model_fields SET "
-        "relation='l10n.fr.report.intrastat.service.line' "
-        "WHERE relation='report.intrastat.service.line'")
-
-    cr.execute(
-        'ALTER SEQUENCE "report_intrastat_service_id_seq" RENAME TO '
-        '"l10n_fr_report_intrastat_service_id_seq"')
-
-    cr.execute(
-        'ALTER TABLE "report_intrastat_service" RENAME TO '
-        '"l10n_fr_report_intrastat_service"')
-
-    cr.execute(
-        "UPDATE ir_model SET model='l10n.fr.report.intrastat.service' "
-        "WHERE model='report.intrastat.service'")
-
-    cr.execute(
-        "UPDATE ir_model_fields "
-        "SET relation='l10n.fr.report.intrastat.service' "
-        "WHERE relation='report.intrastat.service'")
+@openupgrade.migrate(use_env=True)
+def migrate(env, version):
+    openupgrade.rename_models(env.cr, model_renames)
+    openupgrade.rename_tables(env.cr, table_renames)
