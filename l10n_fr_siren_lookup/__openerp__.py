@@ -13,7 +13,7 @@
     "application": False,
     "installable": True,
     "depends": [
-        "base",
+        "l10n_fr_siret",
     ],
     "data": [
         "wizard/siren_wizard.xml",

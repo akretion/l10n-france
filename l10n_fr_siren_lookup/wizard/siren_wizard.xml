@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo>
+<openerp>
+<data>
     <!-- WIZARD FORM -->
     <record id="siren_wizard_view_form" model="ir.ui.view">
         <field name="name">siren.wizard.form</field>
         <field name="model">siren.wizard</field>
         <field name="arch" type="xml">
             <form string="Lookup Company">
-                <p>Lookup</p>
-                    <h4>
-                        <field name="name" />
-                        <button class="btn btn-sm btn-primary" name="get_lines" string="Search" type="object"/>
-                    </h4>
-                <field name="line_ids" readonly="True">
-                    <tree>
-                        <field name="name" />
-                        <field name="street" />
-                        <field name="zip" />
-                        <field name="city" />
-                        <button class="btn btn-primary" name="update_partner" string="Select" type="object" confirm="Confirm selected company ?"/>
-                    </tree>
-                </field>
+                <group name="main">
+                    <field name="partner_id" context="{'show_address': 1}" options="{'always_reload': True}"/>
+                    <field name="name" states="select"/>
+                    <field name="state" invisible="1" />
+                    <button class="oe_highlight" name="get_lines" string="Search" type="object" states="select"/>
+                </group>
+                <group name="lines" states="select" string="Results">
+                    <field name="line_ids" nolabel="1">
+                        <tree colors="grey:close_date!=False">
+                            <field name="name"/>
+                            <field name="legal_type"/>
+                            <field name="street" />
+                            <field name="zip" />
+                            <field name="city" />
+                            <field name="siren"/>
+                            <field name="nic"/>
+                            <field name="close_date"/>
+                            <button class="oe_highlight" name="select_line" string="Select" type="object"/>
+                        </tree>
+                    </field>
+                </group>
+                <group name="diff" states="confirm" string="Changes">
+                    <field name="diff" nolabel="1"/>
+                </group>
                 <footer>
-                    <button class="btn btn-sm btn-default" special="cancel" string="Close"/>
+                    <button name="update_partner" type="object" states="confirm" string="Update Partner" class="oe_highlight"/>
+                    <button special="cancel" string="Close"/>
                 </footer>
             </form>
         </field>
@@ -43,18 +55,19 @@
                     <group string="Legal Infos">
                         <field name="legal_type" />
                         <field name="siren" />
-                        <field name="siret" />
+                        <field name="nic" />
                         <field name="ape" />
                         <field name="ape_label" />
                     </group>
                     <group string="Company Infos">
                         <field name="category" />
                         <field name="creation_date" />
+                        <field name="close_date"/>
                         <field name="staff" />
                     </group>
                 </group>
                 <footer>
-                    <button class="btn btn-sm btn-primary" name="update_partner" string="Select" type="object" confirm="Confirm selected company ?"/>
+                    <button class="oe_hightlight" name="select_line" string="Select" type="object"/>
                 </footer>
             </form>
         </field>
@@ -62,11 +75,10 @@
 
     <record id="siren_wizard_action" model="ir.actions.act_window">
         <field name="name">Informations base Siren</field>
-        <field name="type">ir.actions.act_window</field>
         <field name="res_model">siren.wizard</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="siren_wizard_view_form"/>
         <field name="target">new</field>
     </record>
 
-</odoo>
+</data>
+</openerp>

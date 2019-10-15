@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<openerp>
     <data>
 
         <!-- Client Form View -->
@@ -10,31 +10,12 @@
             <field name="arch" type="xml" >
                 <!-- ADD HEADER BUTTON -->
                 <xpath expr="//sheet" position="before">
-                    <header attrs="{'invisible': [('is_company','!=',True)]}">
-                        <button string="Pre-Fill / Update" type="action" name="%(l10n_fr_siren_lookup.siren_wizard_action)d" class="oe_highlight"/>
+                    <header>
+                        <button string="Get/Update SIRET and address" type="action" name="%(l10n_fr_siren_lookup.siren_wizard_action)d" context="{'default_partner_id': active_id, 'default_name': name}" attrs="{'invisible': [('is_company','!=',True)]}"/>
                     </header>
-                </xpath>
-                <!-- ADD PARTNER INFO TAB -->
-                <xpath expr="//page[@name='internal_notes']" position="after" attrs="{'invisible': [('is_company','!=',True)]}">
-                    <page name="legal_infos" string="Legal Infos">
-                        <group>
-                            <group string="Legal Infos">
-                                <field name="legal_type" />
-                                <field name="siren" />
-                                <field name="siret" />
-                                <field name="ape" />
-                                <field name="ape_label" />
-                            </group>
-                            <group string="Company Infos">
-                                <field name="category" />
-                                <field name="creation_date" />
-                                <field name="staff" />
-                            </group>
-                        </group>
-                    </page>
                 </xpath>
             </field>
         </record>
 
     </data>
-</odoo>
+</openerp>
