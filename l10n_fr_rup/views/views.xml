@@ -39,7 +39,7 @@
         </record>
 
         <record id="action_pcs" model="ir.actions.act_window">
-            <field name="name">Professions et catégories socioprofessionelles</field>
+            <field name="name">Catégories socioprofessionelles</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.employee.pcs</field>
             <field name="view_mode">tree,form</field>

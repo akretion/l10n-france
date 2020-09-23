@@ -7,5 +7,5 @@ from openerp import models, fields
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
-    pcs_id = fields.Many2one("hr.employee.pcs", string="PCS")
+    pcs_id = fields.Many2one("hr.employee.pcs", string="CSP")
     qualification = fields.Char("Qualification")

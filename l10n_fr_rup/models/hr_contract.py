@@ -8,7 +8,7 @@ class HrContract(models.Model):
     _inherit = "hr.contract"
     _order = "date_start,name"
 
-    pcs_id = fields.Many2one("hr.employee.pcs", "PCS")
+    pcs_id = fields.Many2one("hr.employee.pcs", "CSP")
     employer_address_id = fields.Many2one("res.partner", "Addresse de l'employeur")
     qualification = fields.Char("Qualification")
     work_location = fields.Char("Localisation du bureau")

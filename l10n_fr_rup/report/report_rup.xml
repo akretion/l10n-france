@@ -22,7 +22,7 @@
             .pure-table th {
             border-left: 1px solid #cbcbcb;/* inner column border */
             border-width: 0 0 0 1px;
-            font-size: 8px;
+            font-size: 10px;
             margin: 0;
             overflow: visible; /*to make ths where the title is really long work*/
             padding: 0.5em 1em; /* cell padding */
@@ -76,22 +76,22 @@
         <template id="rup_table_header">
             <thead>
                 <tr>
-                    <th rowspan="2" style="width:50px;">N° de ligne</th>
+                    <th rowspan="2" style="width:40px;">N° de ligne</th>
                     <th rowspan="2">Addresse de travail</th>
                     <th rowspan="2">Nom et prénom</th>
                     <th rowspan="2">Date de naissance</th>
                     <th rowspan="2">Sexe</th>
                     <th rowspan="2">Nationalité</th>
                     <th rowspan="2">Emploi</th>
-                    <th rowspan="2">Addresse personelle</th>
+                    <th rowspan="2" style="width:150px;">Addresse personelle</th>
                     <th rowspan="2">N° de sécurité sociale</th>
                     <th colspan="5">Renseignements fournis par le titre du travailleur</th>
-                    <th rowspan="2">Noms et addresses des entrepreneurs de travail temporaire ou
+                    <th rowspan="2" style="width:150px;">Noms et addresses des entrepreneurs de travail temporaire ou
                         groupements
                         d'employeurs
                     </th>
                     <th rowspan="2">Type du contrat</th>
-                    <th rowspan="2">Profession et catégorie socioprofessionelle</th>
+                    <th rowspan="2">Catégorie Socioprofessionelle</th>
                     <th rowspan="2">Qualification</th>
                     <th rowspan="2">Evènements postérieurs à l'embauche</th>
                     <th rowspan="2">Date de l'autorisation administrative d'embauche ou de
