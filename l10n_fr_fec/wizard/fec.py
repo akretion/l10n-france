@@ -90,6 +90,7 @@ class account_fr_fec(orm.TransientModel):
             'ValidDate',      # 15
             'Montantdevise',  # 16
             'Idevise',        # 17
+            'old_id',         # 18
             ]
 
         company_id = self.pool['res.company']._company_default_get(
@@ -103,7 +104,10 @@ class account_fr_fec(orm.TransientModel):
             am.date AS EcritureDate,
             aa.code AS CompteNum,
             aa.name AS CompteLib,
-            rp.id AS CompAuxNum,
+            CASE WHEN rp.ref IS NOT NULL THEN rp.ref::varchar
+            WHEN br.prestashop_id IS NOT NULL THEN br.prestashop_id::varchar
+            ELSE rp.id::varchar
+            END AS CompAuxNum,
             rp.name AS CompAuxLib,
             CASE WHEN am.ref IS null OR am.ref = ''
             THEN '-'
@@ -118,11 +122,13 @@ class account_fr_fec(orm.TransientModel):
             amr.create_date::timestamp::date AS DateLet,
             am.date AS ValidDate,
             aml.amount_currency AS Montantdevise,
-            rc.name AS Idevise
+            rc.name AS Idevise,
+            am.id AS move_id
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id=aml.move_id
             LEFT JOIN res_partner rp ON rp.id=aml.partner_id
+            LEFT JOIN prestashop_res_partner br ON br.openerp_id = rp.id
             LEFT JOIN account_move_reconcile amr ON amr.id = aml.reconcile_id
             JOIN account_journal aj ON aj.id = am.journal_id
             JOIN account_account aa ON aa.id = aml.account_id
