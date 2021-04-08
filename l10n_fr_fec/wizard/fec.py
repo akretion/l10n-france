@@ -148,6 +148,7 @@ class account_fr_fec(orm.TransientModel):
         ORDER BY
             am.date,
             CASE aj.type WHEN 'situation' THEN 1 ELSE 2 END,
+            am.id,
             aml.id
         '''
         cr.execute(sql_query, (tuple(period_ids), company_id))
