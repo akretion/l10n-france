@@ -210,6 +210,11 @@ msgid "Filename"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__is_filter_journals
+msgid "Filter journals"
+msgstr ""
+
+#. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "Generate"
 msgstr ""
@@ -230,6 +235,11 @@ msgid "Idevise"
 msgstr ""
 
 #. module: l10n_fr_fec_oca
+#: model:ir.model.fields,help:l10n_fr_fec_oca.field_account_fr_fec_oca__is_filter_journals
+msgid "If not selected, lines from ALL the journals will be exported"
+msgstr ""
+
+#. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "JournalCode"
 msgstr ""
@@ -237,6 +247,11 @@ msgstr ""
 #. module: l10n_fr_fec_oca
 #: model_terms:ir.ui.view,arch_db:l10n_fr_fec_oca.account_fr_fec_oca_form
 msgid "JournalLib"
+msgstr ""
+
+#. module: l10n_fr_fec_oca
+#: model:ir.model.fields,field_description:l10n_fr_fec_oca.field_account_fr_fec_oca__journal_ids
+msgid "Journals"
 msgstr ""
 
 #. module: l10n_fr_fec_oca

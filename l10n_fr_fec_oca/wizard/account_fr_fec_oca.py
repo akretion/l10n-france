@@ -79,6 +79,16 @@ class AccountFrFecOca(models.TransientModel):
         string="Accounts",
         default=lambda self: self._default_partner_account_ids(),
     )
+    is_filter_journals = fields.Boolean(
+        string="Filter journals",
+        default=True,
+        help="If not selected, lines from ALL the journals will be exported",
+    )
+    journal_ids = fields.Many2many(
+        "account.journal",
+        string="Journals",
+        default=lambda self: self._default_journal_ids(),
+    )
     fec_data = fields.Binary("FEC File", readonly=True, attachment=True)
     filename = fields.Char(string="Filename", size=256, readonly=True)
     export_type = fields.Selection(
@@ -110,6 +120,13 @@ class AccountFrFecOca(models.TransientModel):
             "property_account_receivable_id", "res.partner"
         )
         return pay + rec
+
+    @api.model
+    def _default_journal_ids(self):
+        sale_purchase_journal_ids = self.env["account.journal"].search(
+            [("type", "=", "sale")]
+        )
+        return sale_purchase_journal_ids
 
     def do_query_unaffected_earnings(self):
         """Compute the sum of ending balances for all accounts that are
@@ -162,6 +179,12 @@ class AccountFrFecOca(models.TransientModel):
             sql_query += """
             AND am.state = 'posted'
             """
+
+        if self.is_filter_journals:
+            sql_query += """
+            AND aml.journal_id IN %(journal_ids)s
+            """
+
         company = self.env.company
         formatted_date_from = fields.Date.to_string(self.date_from).replace("-", "")
         date_from = self.date_from
@@ -173,6 +196,7 @@ class AccountFrFecOca(models.TransientModel):
                 "formatted_date_from": formatted_date_from,
                 "date_from": self.date_from,
                 "company_id": company.id,
+                "journal_ids": tuple(self.journal_ids.ids),
             },
         )
         listrow = []
@@ -288,6 +312,11 @@ class AccountFrFecOca(models.TransientModel):
             AND am.state = 'posted'
             """
 
+        if self.is_filter_journals:
+            sql_query += """
+            AND aml.journal_id IN %(journal_ids)s
+            """
+
         sql_query += """
         GROUP BY aml.account_id, aat.type
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
@@ -303,6 +332,7 @@ class AccountFrFecOca(models.TransientModel):
             "date_to": self.date_to,
             "company_id": company.id,
             "currency_digits": currency_digits,
+            "journal_ids": tuple(self.journal_ids.ids),
         }
 
         unaffected_earnings_type_id = self.env.ref(
@@ -467,6 +497,12 @@ class AccountFrFecOca(models.TransientModel):
             AND am.state = 'posted'
             """
 
+        if self.is_filter_journals:
+            sql_query += """
+            AND aml.journal_id IN %(journal_ids)s
+            """
+            sql_args["journal_ids"] = tuple(self.journal_ids.ids)
+
         sql_query += """
         GROUP BY aml.account_id, aat.type, rp.id
         HAVING round(sum(aml.balance), %(currency_digits)s) != 0
@@ -557,6 +593,12 @@ class AccountFrFecOca(models.TransientModel):
             sql_query += """
             AND am.state = 'posted'
             """
+
+        if self.is_filter_journals:
+            sql_query += """
+            AND aml.journal_id IN %(journal_ids)s
+            """
+            sql_args["journal_ids"] = tuple(self.journal_ids.ids)
 
         sql_query += """
         ORDER BY

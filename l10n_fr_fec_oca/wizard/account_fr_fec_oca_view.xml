@@ -27,6 +27,12 @@
                                 widget="many2many_tags"
                                 attrs="{'invisible': [('partner_option', '!=', 'accounts')], 'required': [('partner_option', '=', 'accounts')]}"
                             />
+                        <field name="is_filter_journals" />
+                        <field
+                                name="journal_ids"
+                                widget="many2many_tags"
+                                attrs="{'invisible': [('is_filter_journals', '=', False)], 'required': [('is_filter_journals', '=', True)]}"
+                            />
                     </group>
                 </page>
                 <page string="Technical Info">
