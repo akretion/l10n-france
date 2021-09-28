@@ -99,13 +99,18 @@ class SirenWizardLine(models.TransientModel):
         fields_list = ['name', 'street', 'zip', 'city', 'siren', 'nic']
         fget = self.env['res.partner'].fields_get(fields_list)
         for pfield in fields_list:
-            if partner[pfield] != self[pfield]:
-                diff[pfield] = self[pfield]
-                diff_txt.append(
-                    _('%s : %s -> %s') % (
-                        fget[pfield].get('string', pfield),
-                        partner[pfield],
-                        self[pfield]))
+            if self[pfield]:
+                if pfield == 'street':
+                    diff[pfield] = self[pfield].title()
+                else:
+                    diff[pfield] = self[pfield]
+
+                if partner[pfield] != diff[pfield]:
+                    diff_txt.append(
+                        _('%s : %s -> %s') % (
+                            fget[pfield].get('string', pfield),
+                            partner[pfield],
+                            diff[pfield]))
         diff_txt = '\n'.join(diff_txt)
         return diff, diff_txt
 
