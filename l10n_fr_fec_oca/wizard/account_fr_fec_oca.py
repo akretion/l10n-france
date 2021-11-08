@@ -162,7 +162,9 @@ class AccountFrFecOca(models.TransientModel):
             '' AS DateLet,
             %(formatted_date_from)s AS ValidDate,
             '' AS Montantdevise,
-            '' AS Idevise
+            '' AS Idevise,
+            '' AS CompteAnaCode,
+            '' AS CompteAnaLib
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id = aml.move_id
@@ -251,6 +253,8 @@ class AccountFrFecOca(models.TransientModel):
             "ValidDate",  # 15
             "Montantdevise",  # 16
             "Idevise",  # 17
+            "CompteAnaCode",  # 18
+            "CompteAnaLib",  # 19
         ]
 
         rows_to_write = [header]
@@ -293,7 +297,9 @@ class AccountFrFecOca(models.TransientModel):
             %(formatted_date_from)s AS ValidDate,
             '' AS Montantdevise,
             '' AS Idevise,
-            MIN(aa.id) AS CompteID
+            MIN(aa.id) AS CompteID,
+            '' AS CompteAnaCode,
+            '' AS CompteAnaLib
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id = aml.move_id
@@ -476,7 +482,9 @@ class AccountFrFecOca(models.TransientModel):
             %(formatted_date_from)s AS ValidDate,
             '' AS Montantdevise,
             '' AS Idevise,
-            MIN(aa.id) AS CompteID
+            MIN(aa.id) AS CompteID,
+            '' AS CompteAnaCode,
+            '' AS CompteAnaLib
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id=aml.move_id
@@ -569,13 +577,16 @@ class AccountFrFecOca(models.TransientModel):
                 WHEN aml.currency_id IS NULL
                 THEN ''
                 ELSE rc.name
-            END AS Idevise
+            END AS Idevise,
+            replace(replace(aaa.code, '|', '/'), '\t', '') AS CompteAnaCode,
+            replace(replace(aaa.name, '|', '/'), '\t', '') AS CompteAnaLib
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id=aml.move_id
             LEFT JOIN res_partner rp ON rp.id=aml.partner_id
             JOIN account_journal aj ON aj.id = am.journal_id
             JOIN account_account aa ON aa.id = aml.account_id
+            JOIN account_analytic_account aaa ON aaa.id = aml.analytic_account_id
             JOIN account_account_type aat ON aat.id = aa.user_type_id
             LEFT JOIN res_currency rc ON rc.id = aml.currency_id
             LEFT JOIN account_full_reconcile rec
