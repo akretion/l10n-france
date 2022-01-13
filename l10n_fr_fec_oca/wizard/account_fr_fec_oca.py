@@ -385,7 +385,7 @@ class AccountFrFecOca(models.TransientModel):
 
         sql_aux_num_base = """
         CASE WHEN rp.ref IS null OR rp.ref = ''
-        THEN COALESCE('ID' || rp.id, '')
+        THEN COALESCE('' || rp.id, '')
         ELSE replace(rp.ref, '|', '/')
         END
         """
