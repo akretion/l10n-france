@@ -137,7 +137,7 @@ class AccountFrFecOca(models.TransientModel):
         # BENEFIT and LOSS
         sql_query = """
         SELECT
-            'OUV' AS JournalCode,
+            'AN1' AS JournalCode,
             'Balance initiale' AS JournalLib,
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
@@ -267,7 +267,7 @@ class AccountFrFecOca(models.TransientModel):
         # INITIAL BALANCE other than payable/receivable
         sql_query = """
         SELECT
-            'OUV' AS JournalCode,
+            'AN1' AS JournalCode,
             'Balance initiale' AS JournalLib,
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
@@ -449,7 +449,7 @@ class AccountFrFecOca(models.TransientModel):
         sql_query = (
             """
         SELECT
-            'OUV' AS JournalCode,
+            'AN1' AS JournalCode,
             'Balance initiale' AS JournalLib,
             'OUVERTURE/' || %(formatted_date_year)s AS EcritureNum,
             %(formatted_date_from)s AS EcritureDate,
