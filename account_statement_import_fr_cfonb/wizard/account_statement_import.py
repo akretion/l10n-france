@@ -154,7 +154,7 @@ class AccountStatementImport(models.TransientModel):
                 seq += 1
 
             elif rec_type == "05":
-                complementary_info_type = line[45:48]
+                # complementary_info_type = line[45:48]
                 complementary_info = line[48:118].strip()
                 # Strategy:
                 # We use ALL complementary_info_types in unique_import_id
@@ -164,7 +164,12 @@ class AccountStatementImport(models.TransientModel):
                 # when it's interesting for the user, in order to avoid
                 # too long labels with too much "pollution"
                 transactions[-1]["unique_import_id"] += complementary_info
-                if complementary_info_type in ("   ", "LIB") and complementary_info:
+                # Actually, we prefer having all info in payment ref, as with
+                # "LIB" only, we miss a lot of information. Better too much than not
+                # enough
+                # we may improve this with a better white list or black list depending
+                # on an up to date documentation
+                if complementary_info:
                     transactions[-1]["payment_ref"] += " " + complementary_info
 
             if rec_type in ("04", "05", "07") and account_key not in result:
