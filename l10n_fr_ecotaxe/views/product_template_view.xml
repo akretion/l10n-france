@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-    Copyright (C) 2020 Akretion (http://www.akretion.com/)
+    Copyright (C) 2023 Akretion (http://www.akretion.com/)
     @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
 <odoo>
@@ -14,7 +14,7 @@
                 <field name="ecotaxe_amount" />
                 <label
                     for="manual_fixed_ecotaxe"
-                    string="Ecotaxe classification"
+                    string="Manual Ecotaxe"
                     class="oe_edit_only"
                 />
                 <field name="manual_fixed_ecotaxe" class="oe_edit_only" nolabel="1" />

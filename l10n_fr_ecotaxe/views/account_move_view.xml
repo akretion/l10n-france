@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
-   Copyright (C) 2015 Akretion (http://www.akretion.com/)
+   Copyright (C) 2023 Akretion (http://www.akretion.com/)
    @author: Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 -->
 <odoo>
@@ -13,7 +13,11 @@
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="after"
             >
-                <field name="unit_ecotaxe_amount" />
+                <field name="subtotal_ecotaxe" optional="show" />
+                <field name="unit_ecotaxe_amount" optional="hide" />
+            </xpath>
+            <xpath expr="//field[@name='tax_totals']" position="after">
+                    <field name="amount_ecotaxe" class="oe_subtotal_footer_separator" />
             </xpath>
         </field>
     </record>

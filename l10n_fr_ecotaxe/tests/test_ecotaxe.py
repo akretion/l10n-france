@@ -1,4 +1,4 @@
-# Copyright 2016-2018 Akretion France
+# Copyright 2016-2023 Akretion France
 #   @author: Alexis de Lattre <alexis.delattre@akretion.com>
 # Copyright 2021 Camptocamp
 #   @author Silvio Gregorini <silvio.gregorini@camptocamp.com>
@@ -46,7 +46,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
             {
                 "code": "invoice_tax_account",
                 "name": "Invoice Tax Account",
-                "user_type_id": cls.env.ref("account.data_account_type_revenue").id,
+                "account_type": "liability_current",
                 "company_id": cls.env.user.company_id.id,
             }
         )
