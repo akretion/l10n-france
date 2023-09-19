@@ -16,7 +16,7 @@ class ChorusPartnerService(models.Model):
 
     partner_id = fields.Many2one(
         'res.partner', string='Customer', ondelete='cascade',
-        domain=[('parent_id', '=', False)])
+        domain=[('is_company', '=', True)])
     code = fields.Char(string='Service Code', required=True)
     active = fields.Boolean(default=True)
     name = fields.Char(string='Service Name')

@@ -92,7 +92,7 @@ class ResPartner(models.Model):
         raise_if_ko = self._context.get('chorus_raise_if_ko', True)
         partners = []
         for partner in self.filtered(lambda p: not p.fr_chorus_identifier):
-            if partner.parent_id:
+            if not partner.is_company:
                 if raise_if_ko:
                     raise UserError(_(
                         "Cannot get Chorus Identifier on a contact (%s)")
@@ -369,7 +369,7 @@ class ResPartner(models.Model):
     def chorus_cron(self):
         logger.info('Start Chorus partner cron')
         to_update_partners = self.search([
-            ('parent_id', '=', False),
+            ('is_company', '=', True),
             ('customer_invoice_transmit_method_code', '=', 'fr-chorus'),
             ('siren', '!=', False),
             ('nic', '!=', False)])
@@ -381,6 +381,7 @@ class ResPartner(models.Model):
         # Method used upon SO or invoice validation
         self.ensure_one()
         if (
+                not self.is_company and
                 self.parent_id and
                 self.name and
                 self.fr_chorus_service_id and
