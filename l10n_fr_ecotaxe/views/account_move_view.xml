@@ -14,7 +14,23 @@
                 position="after"
             >
                 <field name="subtotal_ecotaxe" optional="show" />
-                <field name="unit_ecotaxe_amount" optional="hide" />
+                <field name="ecotaxe_amount_unit" optional="hide" />
+                <field name="ecotaxe_line_ids" optional="show" />
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
+                position="after"
+            >
+                <field name="ecotaxe_line_ids">
+                    <tree editable="bottom">
+                        <field name="ecotaxe_classification_id"/>
+                        <field name="force_ecotaxe_unit"/>
+                        <field name="ecotaxe_amount_unit"/>
+                        <field name="ecotaxe_amount_total"/>
+                    </tree>
+                </field>
+                <field name="subtotal_ecotaxe"/>
+                <field name="ecotaxe_amount_unit"/>
             </xpath>
             <xpath expr="//field[@name='tax_totals']" position="after">
                     <field name="amount_ecotaxe" class="oe_subtotal_footer_separator" />

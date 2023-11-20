@@ -9,15 +9,17 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view" />
         <field name="arch" type="xml">
+
             <xpath expr="//label[@for='list_price']" position="before">
-                <field name="ecotaxe_classification_id" />
+                <label for="ecotaxe_classification_ids" string="Ecotaxe classification"/>
+                <div><field name="ecotaxe_classification_ids" widget="many2many_tags" nolabel="1"/></div>
                 <field name="ecotaxe_amount" />
                 <label
-                    for="manual_fixed_ecotaxe"
-                    string="Manual Ecotaxe"
+                    for="force_ecotaxe_amount"
+                    string="Force Ecotaxe"
                     class="oe_edit_only"
                 />
-                <field name="manual_fixed_ecotaxe" class="oe_edit_only" nolabel="1" />
+                <field name="force_ecotaxe_amount" class="oe_edit_only" nolabel="1" />
             </xpath>
         </field>
     </record>
