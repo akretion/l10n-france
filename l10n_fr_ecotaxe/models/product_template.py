@@ -8,10 +8,9 @@ from odoo import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-
     ecotaxe_classification_ids = fields.Many2many(
         "account.ecotaxe.classification",
-        'product_template_rel_ecotaxe_classif',
+        "product_template_rel_ecotaxe_classif",
         string="Ecotaxe Classifications",
     )
     ecotaxe_amount = fields.Monetary(

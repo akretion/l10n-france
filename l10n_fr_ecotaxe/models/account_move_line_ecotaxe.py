@@ -2,22 +2,25 @@
 #   @author Mourad EL HADJ MIMOUNE <mourad.elhadj.mimoune@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
-class AcountMoveLineEcotaxe(models.Model):
+class AccountMoveLineEcotaxe(models.Model):
     _name = "account.move.line.ecotaxe"
     _inherit = "ecotaxe.line.mixin"
     account_move_line_id = fields.Many2one(
-        comodel_name='account.move.line',
-        string='Account move line',
+        comodel_name="account.move.line",
+        string="Account move line",
         required=True,
         readonly=True,
         index=True,
         auto_join=True,
         ondelete="cascade",
     )
-    product_id = fields.Many2one('product.product',  related="account_move_line_id.product_id", readonly=True)
+    product_id = fields.Many2one(
+        "product.product", related="account_move_line_id.product_id", readonly=True
+    )
     quantity = fields.Float(related="account_move_line_id.quantity", readonly=True)
-    currency_id = fields.Many2one(related="account_move_line_id.currency_id", readonly=True)
-
+    currency_id = fields.Many2one(
+        related="account_move_line_id.currency_id", readonly=True
+    )

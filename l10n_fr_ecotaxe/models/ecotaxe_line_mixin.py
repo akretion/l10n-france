@@ -6,13 +6,14 @@ from odoo import api, fields, models
 
 
 class EcotaxeLineMixin(models.AbstractModel):
-    """ Mixin class for objects which can be used to save mutili ecotaxe calssification  by account move line
-    or sale order line. """
+    """Mixin class for objects which can be used to save mutili ecotaxe calssification  by account move line
+    or sale order line."""
+
     _name = "ecotaxe.line.mixin"
     _description = "Ecotaxe Line Mixin"
 
-    product_id = fields.Many2one('product.product', string='Product', readonly=True)
-    currency_id = fields.Many2one('res.currency', string='Currency')
+    product_id = fields.Many2one("product.product", string="Product", readonly=True)
+    currency_id = fields.Many2one("res.currency", string="Currency")
     ecotaxe_classification_id = fields.Many2one(
         "account.ecotaxe.classification",
         string="Ecotaxe Classification",
@@ -23,8 +24,7 @@ class EcotaxeLineMixin(models.AbstractModel):
         store=True,
     )
     force_ecotaxe_unit = fields.Monetary(
-        help="Force ecotaxe.\n"
-        "Allow to subtite default Ecotaxe Classification\n"
+        help="Force ecotaxe.\n" "Allow to subtite default Ecotaxe Classification\n"
     )
     ecotaxe_amount_total = fields.Monetary(
         compute="_compute_ecotaxe",
@@ -42,17 +42,18 @@ class EcotaxeLineMixin(models.AbstractModel):
     def _compute_ecotaxe(self):
         for ecotaxeline in self:
             ecotax_cls = ecotaxeline.ecotaxe_classification_id
-            import pdb; pdb.set_trace()
 
             if ecotax_cls.ecotaxe_type == "weight_based":
                 amt = ecotax_cls.ecotaxe_coef * (ecotaxeline.product_id.weight or 0.0)
             else:
                 amt = ecotax_cls.default_fixed_ecotaxe
-            #force ecotaxe amount
+            # force ecotaxe amount
             if ecotaxeline.force_ecotaxe_unit:
                 amt = ecotaxeline.force_ecotaxe_unit
             elif ecotaxeline.product_id.force_ecotaxe_amount:
                 amt = ecotaxeline.product_id.force_ecotaxe_amount
 
             ecotaxeline.ecotaxe_amount_unit = amt
-            ecotaxeline.ecotaxe_amount_total = ecotaxeline.ecotaxe_amount_unit * ecotaxeline.quantity
+            ecotaxeline.ecotaxe_amount_total = (
+                ecotaxeline.ecotaxe_amount_unit * ecotaxeline.quantity
+            )
