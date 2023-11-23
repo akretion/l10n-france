@@ -8,36 +8,38 @@ from odoo import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    ecotaxe_classification_ids = fields.Many2many(
-        "account.ecotaxe.classification",
-        "product_template_rel_ecotaxe_classif",
-        string="Ecotaxe Classifications",
+    ecotaxe_line_product_ids = fields.One2many(
+        "ecotaxe.line.product",
+        "product_tmplt_id",
+        string="Ecotaxe lines",
+        copy=True,
     )
     ecotaxe_amount = fields.Monetary(
         compute="_compute_ecotaxe",
         help="Ecotaxe Amount computed form Classification",
         store=True,
     )
-    force_ecotaxe_amount = fields.Monetary(
-        help="Force ecotaxe amount.\n"
-        "Allow to subtite default Ecotaxe Classification\n"
-    )
 
     @api.depends(
-        "ecotaxe_classification_ids",
-        "ecotaxe_classification_ids.ecotaxe_type",
-        "ecotaxe_classification_ids.ecotaxe_coef",
+        "ecotaxe_line_product_ids",
+        "ecotaxe_line_product_ids.ecotaxe_classification_id",
+        "ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_type",
+        "ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_coef",
+        "ecotaxe_line_product_ids.force_ecotaxe_amount",
         "weight",
-        "force_ecotaxe_amount",
     )
     def _compute_ecotaxe(self):
         for tmpl in self:
-            amt = 0.0
-            for ecotax_cls in tmpl.ecotaxe_classification_ids:
+            amount_ecotaxe = 0.0
+            for ecotaxeline_prod in tmpl.ecotaxe_line_product_ids:
+                ecotax_cls = ecotaxeline_prod.ecotaxe_classification_id
+                ecotaxe_line = 0.0
                 if ecotax_cls.ecotaxe_type == "weight_based":
-                    amt += ecotax_cls.ecotaxe_coef * (tmpl.weight or 0.0)
-                elif tmpl.force_ecotaxe_amount:
-                    amt += tmpl.force_ecotaxe_amount
+                    ecotaxe_line = ecotax_cls.ecotaxe_coef * (tmpl.weight or 0.0)
                 else:
-                    amt += ecotax_cls.default_fixed_ecotaxe
-            tmpl.ecotaxe_amount = amt
+                    ecotaxe_line = ecotax_cls.default_fixed_ecotaxe
+                # force ecotaxe amount by line
+                if ecotaxeline_prod.force_ecotaxe_amount:
+                    ecotaxe_line = ecotaxeline_prod.force_ecotaxe_amount
+                amount_ecotaxe += ecotaxe_line
+            tmpl.ecotaxe_amount = amount_ecotaxe

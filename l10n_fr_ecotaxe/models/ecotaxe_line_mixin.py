@@ -50,8 +50,6 @@ class EcotaxeLineMixin(models.AbstractModel):
             # force ecotaxe amount
             if ecotaxeline.force_ecotaxe_unit:
                 amt = ecotaxeline.force_ecotaxe_unit
-            elif ecotaxeline.product_id.force_ecotaxe_amount:
-                amt = ecotaxeline.product_id.force_ecotaxe_amount
 
             ecotaxeline.ecotaxe_amount_unit = amt
             ecotaxeline.ecotaxe_amount_total = (
