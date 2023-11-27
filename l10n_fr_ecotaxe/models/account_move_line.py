@@ -45,9 +45,8 @@ class AcountMoveLine(models.Model):
     @api.onchange("product_id")
     def _onchange_product_ecotaxe_line(self):
         """Unlink and recreate ecotaxe_lines when modifying the product_id."""
-        if not self.product_id:
+        if self.product_id:
             self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
-        else:
             ecotax_cls_vals = []
             for ecotaxeline_prod in self.product_id.ecotaxe_line_product_ids:
                 ecotax_cls_vals.append(
@@ -61,6 +60,8 @@ class AcountMoveLine(models.Model):
                     )
                 )
             self.ecotaxe_line_ids = ecotax_cls_vals
+        else:
+            self.ecotaxe_line_ids = [(5,)]  # Remove all ecotaxe classification
 
     def edit_ecotaxe_lines(self):
         view = {
