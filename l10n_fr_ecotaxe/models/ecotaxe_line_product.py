@@ -20,7 +20,7 @@ class EcotaxeLineProduct(models.Model):
         string="Ecotaxe Classification",
     )
     force_ecotaxe_amount = fields.Monetary(
-        help="Force ecotaxe.\n" "Allow to subtite default Ecotaxe Classification\n"
+        help="Force ecotaxe.\n" "Allow to substitute default Ecotaxe Classification\n"
     )
     ecotaxe_amount = fields.Monetary(
         compute="_compute_ecotaxe",

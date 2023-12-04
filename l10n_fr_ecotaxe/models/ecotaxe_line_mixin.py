@@ -6,7 +6,8 @@ from odoo import api, fields, models
 
 
 class EcotaxeLineMixin(models.AbstractModel):
-    """Mixin class for objects which can be used to save mutili ecotaxe calssification  by account move line
+    """Mixin class for objects which can be used to save
+     multi ecotaxe calssification  by account move line
     or sale order line."""
 
     _name = "ecotaxe.line.mixin"
