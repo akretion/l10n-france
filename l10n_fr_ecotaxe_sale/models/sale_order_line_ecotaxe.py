@@ -8,6 +8,7 @@ from odoo import fields, models
 class SaleOrderLineEcotaxe(models.Model):
     _name = "sale.order.line.ecotaxe"
     _inherit = "ecotaxe.line.mixin"
+    _description = "Ecotax sale order line"
     sale_order_line_id = fields.Many2one(
         comodel_name="sale.order.line",
         string="Sale order line",
