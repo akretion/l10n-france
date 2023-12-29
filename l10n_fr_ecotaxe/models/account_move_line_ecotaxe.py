@@ -7,6 +7,7 @@ from odoo import fields, models
 
 class AccountMoveLineEcotaxe(models.Model):
     _name = "account.move.line.ecotaxe"
+    _description = "Account Move Line Ecotaxe"
     _inherit = "ecotaxe.line.mixin"
     account_move_line_id = fields.Many2one(
         comodel_name="account.move.line",
