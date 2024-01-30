@@ -129,7 +129,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": ecotax_classification.id,
+                            "classification_id": ecotax_classification.id,
                         },
                     )
                 ],
@@ -162,7 +162,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                         0,
                         0,
                         {
-                            "ecotaxe_classification_id": ecotax_classification.id,
+                            "classification_id": ecotax_classification.id,
                         },
                     )
                 ],
@@ -374,7 +374,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         """
         product = self._make_product(self.ecotax_fixed)
         invoice = self._make_invoice(products=product)
-        invoice.invoice_line_ids[0].ecotaxe_line_ids.force_ecotaxe_unit = 2
+        invoice.invoice_line_ids[0].ecotaxe_line_ids.force_amount_unit = 2
         self._run_checks(
             invoice,
             {"amount_ecotaxe": 2.0, "amount_total": 100.0},
@@ -411,7 +411,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
                 0,
                 0,
                 {
-                    "ecotaxe_classification_id": self.ecotax_weight.id,
+                    "classification_id": self.ecotax_weight.id,
                 },
             )
         ]

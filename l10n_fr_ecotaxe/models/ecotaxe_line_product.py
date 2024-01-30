@@ -16,9 +16,9 @@ class EcotaxeLineProduct(models.Model):
     )
     product_id = fields.Many2one("product.product", string="Product", readonly=True)
     currency_id = fields.Many2one(related="product_tmplt_id.currency_id", readonly=True)
-    ecotaxe_classification_id = fields.Many2one(
+    classification_id = fields.Many2one(
         "account.ecotaxe.classification",
-        string="Ecotaxe Classification",
+        string="Classification",
     )
     force_ecotaxe_amount = fields.Monetary(
         help="Force ecotaxe.\n" "Allow to substitute default Ecotaxe Classification\n"
@@ -30,14 +30,14 @@ class EcotaxeLineProduct(models.Model):
     )
 
     @api.depends(
-        "ecotaxe_classification_id",
-        "ecotaxe_classification_id.ecotaxe_type",
-        "ecotaxe_classification_id.ecotaxe_coef",
+        "classification_id",
+        "classification_id.ecotaxe_type",
+        "classification_id.ecotaxe_coef",
         "force_ecotaxe_amount",
     )
     def _compute_ecotaxe(self):
         for ecotaxeline in self:
-            ecotax_cls = ecotaxeline.ecotaxe_classification_id
+            ecotax_cls = ecotaxeline.classification_id
 
             if ecotax_cls.ecotaxe_type == "weight_based":
                 amt = ecotax_cls.ecotaxe_coef * (
@@ -54,13 +54,13 @@ class EcotaxeLineProduct(models.Model):
 
     _sql_constraints = [
         (
-            "unique_ecotaxe_classification_id_by_product",
-            "UNIQUE(ecotaxe_classification_id, product_id)",
+            "unique_classification_id_by_product",
+            "UNIQUE(classification_id, product_id)",
             "Only one ecotaxe classification occurrence by product",
         ),
         (
-            "unique_ecotaxe_classification_id_by_product_tmpl",
-            "UNIQUE(ecotaxe_classification_id, product_tmplt_id)",
+            "unique_classification_id_by_product_tmpl",
+            "UNIQUE(classification_id, product_tmplt_id)",
             "Only one ecotaxe classification occurrence by product Template",
         ),
     ]

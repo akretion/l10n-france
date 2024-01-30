@@ -52,9 +52,9 @@ class ProductProduct(models.Model):
 
     @api.depends(
         "all_ecotaxe_line_product_ids",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_type",
-        "all_ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_coef",
+        "all_ecotaxe_line_product_ids.classification_id",
+        "all_ecotaxe_line_product_ids.classification_id.ecotaxe_type",
+        "all_ecotaxe_line_product_ids.classification_id.ecotaxe_coef",
         "all_ecotaxe_line_product_ids.force_ecotaxe_amount",
         "weight",
     )
@@ -62,7 +62,7 @@ class ProductProduct(models.Model):
         for product in self:
             amount_ecotaxe = 0.0
             for ecotaxeline_prod in product.all_ecotaxe_line_product_ids:
-                ecotax_cls = ecotaxeline_prod.ecotaxe_classification_id
+                ecotax_cls = ecotaxeline_prod.classification_id
                 ecotaxe_line = 0.0
                 if ecotax_cls.ecotaxe_type == "weight_based":
                     ecotaxe_line = ecotax_cls.ecotaxe_coef * (product.weight or 0.0)

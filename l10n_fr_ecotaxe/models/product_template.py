@@ -22,9 +22,9 @@ class ProductTemplate(models.Model):
 
     @api.depends(
         "ecotaxe_line_product_ids",
-        "ecotaxe_line_product_ids.ecotaxe_classification_id",
-        "ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_type",
-        "ecotaxe_line_product_ids.ecotaxe_classification_id.ecotaxe_coef",
+        "ecotaxe_line_product_ids.classification_id",
+        "ecotaxe_line_product_ids.classification_id.ecotaxe_type",
+        "ecotaxe_line_product_ids.classification_id.ecotaxe_coef",
         "ecotaxe_line_product_ids.force_ecotaxe_amount",
         "weight",
     )
@@ -32,7 +32,7 @@ class ProductTemplate(models.Model):
         for tmpl in self:
             amount_ecotaxe = 0.0
             for ecotaxeline_prod in tmpl.ecotaxe_line_product_ids:
-                ecotax_cls = ecotaxeline_prod.ecotaxe_classification_id
+                ecotax_cls = ecotaxeline_prod.classification_id
                 ecotaxe_line = 0.0
                 if ecotax_cls.ecotaxe_type == "weight_based":
                     ecotaxe_line = ecotax_cls.ecotaxe_coef * (tmpl.weight or 0.0)

@@ -23,7 +23,7 @@
                             readonly="1"
                         >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
+                                <field name="classification_id" />
                                 <field name="force_ecotaxe_amount" />
                                 <field name="ecotaxe_amount" />
                             </tree>
@@ -40,7 +40,7 @@
                             nolabel="1"
                         >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
+                                <field name="classification_id" />
                                 <field name="force_ecotaxe_amount" />
                                 <field name="ecotaxe_amount" />
                             </tree>
@@ -68,7 +68,7 @@
                         nolabel="1"
                     >
                             <tree editable="bottom">
-                                <field name="ecotaxe_classification_id" />
+                                <field name="classification_id" />
                                 <field name="force_ecotaxe_amount" />
                                 <field name="ecotaxe_amount" />
                             </tree>
