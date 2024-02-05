@@ -50,7 +50,7 @@ class AcountMoveLine(models.Model):
             ecotax_cls_vals = []
             for ecotaxeline_prod in self.product_id.all_ecotaxe_line_product_ids:
                 classif_id = ecotaxeline_prod.classification_id.id
-                forced_amount = ecotaxeline_prod.force_ecotaxe_amount
+                forced_amount = ecotaxeline_prod.force_amount
                 ecotax_cls_vals.append(
                     (
                         0,

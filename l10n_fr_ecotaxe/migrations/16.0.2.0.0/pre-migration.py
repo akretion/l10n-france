@@ -175,3 +175,27 @@ def migrate(env, version):
                 ),
             ],
         )
+    if not openupgrade.column_exists(env.cr, "ecotaxe_line_product", "force_amount"):
+        openupgrade.rename_fields(
+            env,
+            [
+                (
+                    "ecotaxe.line.product",
+                    "ecotaxe_line_product",
+                    "force_ecotaxe_amount",
+                    "force_amount",
+                ),
+            ],
+        )
+    if not openupgrade.column_exists(env.cr, "ecotaxe_line_product", "amount"):
+        openupgrade.rename_fields(
+            env,
+            [
+                (
+                    "ecotaxe.line.product",
+                    "ecotaxe_line_product",
+                    "ecotaxe_amount",
+                    "amount",
+                ),
+            ],
+        )

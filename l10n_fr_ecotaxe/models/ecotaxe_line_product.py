@@ -20,20 +20,30 @@ class EcotaxeLineProduct(models.Model):
         "account.ecotaxe.classification",
         string="Classification",
     )
-    force_ecotaxe_amount = fields.Monetary(
-        help="Force ecotaxe.\n" "Allow to substitute default Ecotaxe Classification\n"
+    force_amount = fields.Monetary(
+        help="Force ecotaxe amount.\n"
+        "Allow to substitute default Ecotaxe Classification\n"
     )
-    ecotaxe_amount = fields.Monetary(
+    amount = fields.Monetary(
         compute="_compute_ecotaxe",
-        help="Ecotaxe Amount total computed form Classification or forced ecotaxe amount",
+        help="Ecotaxe Amount computed form Classification or forced ecotaxe amount",
         store=True,
     )
+    display_name = fields.Char(compute="_compute_display_name")
+
+    @api.depends("classification_id", "amount")
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = "%s (%s)" % (
+                rec.classification_id.name,
+                rec.amount,
+            )
 
     @api.depends(
         "classification_id",
         "classification_id.ecotaxe_type",
         "classification_id.ecotaxe_coef",
-        "force_ecotaxe_amount",
+        "force_amount",
     )
     def _compute_ecotaxe(self):
         for ecotaxeline in self:
@@ -48,9 +58,9 @@ class EcotaxeLineProduct(models.Model):
             else:
                 amt = ecotax_cls.default_fixed_ecotaxe
             # force ecotaxe amount
-            if ecotaxeline.force_ecotaxe_amount:
-                amt = ecotaxeline.force_ecotaxe_amount
-            ecotaxeline.ecotaxe_amount = amt
+            if ecotaxeline.force_amount:
+                amt = ecotaxeline.force_amount
+            ecotaxeline.amount = amt
 
     _sql_constraints = [
         (

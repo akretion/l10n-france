@@ -264,7 +264,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
             - line ecotax total amount: 10.0
         """
         product = self._make_product(self.ecotax_fixed)
-        product.ecotaxe_line_product_ids[0].force_ecotaxe_amount = 10
+        product.ecotaxe_line_product_ids[0].force_amount = 10
         invoice = self._make_invoice(products=product)
         self._run_checks(
             invoice,
@@ -325,7 +325,7 @@ class TestInvoiceEcotaxe(AccountTestInvoicingCommon):
         """
         default_fixed_product = self._make_product(self.ecotax_fixed)
         manual_fixed_product = self._make_product(self.ecotax_fixed)
-        manual_fixed_product.ecotaxe_line_product_ids[0].force_ecotaxe_amount = 10
+        manual_fixed_product.ecotaxe_line_product_ids[0].force_amount = 10
         weight_based_product = self._make_product(self.ecotax_weight)
         invoice = self._make_invoice(
             products=default_fixed_product | manual_fixed_product | weight_based_product

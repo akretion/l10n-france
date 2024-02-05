@@ -22,7 +22,7 @@ class ProductProduct(models.Model):
         "ecotaxe.line.product",
         compute="_compute_all_ecotaxe_line_product_ids",
         search="_search_all_ecotaxe_line_product_ids",
-        string="Additional ecotaxe lines",
+        string="All ecotaxe lines",
     )
     ecotaxe_amount = fields.Monetary(
         compute="_compute_product_ecotaxe",
@@ -55,7 +55,7 @@ class ProductProduct(models.Model):
         "all_ecotaxe_line_product_ids.classification_id",
         "all_ecotaxe_line_product_ids.classification_id.ecotaxe_type",
         "all_ecotaxe_line_product_ids.classification_id.ecotaxe_coef",
-        "all_ecotaxe_line_product_ids.force_ecotaxe_amount",
+        "all_ecotaxe_line_product_ids.force_amount",
         "weight",
     )
     def _compute_product_ecotaxe(self):
@@ -69,7 +69,7 @@ class ProductProduct(models.Model):
                 else:
                     ecotaxe_line = ecotax_cls.default_fixed_ecotaxe
                 # force ecotaxe amount by line
-                if ecotaxeline_prod.force_ecotaxe_amount:
-                    ecotaxe_line = ecotaxeline_prod.force_ecotaxe_amount
+                if ecotaxeline_prod.force_amount:
+                    ecotaxe_line = ecotaxeline_prod.force_amount
                 amount_ecotaxe += ecotaxe_line
             product.ecotaxe_amount = amount_ecotaxe

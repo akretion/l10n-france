@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
         "ecotaxe_line_product_ids.classification_id",
         "ecotaxe_line_product_ids.classification_id.ecotaxe_type",
         "ecotaxe_line_product_ids.classification_id.ecotaxe_coef",
-        "ecotaxe_line_product_ids.force_ecotaxe_amount",
+        "ecotaxe_line_product_ids.force_amount",
         "weight",
     )
     def _compute_ecotaxe(self):
@@ -39,7 +39,7 @@ class ProductTemplate(models.Model):
                 else:
                     ecotaxe_line = ecotax_cls.default_fixed_ecotaxe
                 # force ecotaxe amount by line
-                if ecotaxeline_prod.force_ecotaxe_amount:
-                    ecotaxe_line = ecotaxeline_prod.force_ecotaxe_amount
+                if ecotaxeline_prod.force_amount:
+                    ecotaxe_line = ecotaxeline_prod.force_amount
                 amount_ecotaxe += ecotaxe_line
             tmpl.ecotaxe_amount = amount_ecotaxe
