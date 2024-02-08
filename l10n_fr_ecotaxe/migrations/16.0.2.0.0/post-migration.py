@@ -13,12 +13,23 @@ def migrate(env, version):
         """
             UPDATE ir_ui_view set
                 active = True
-            WHERE  active = False
-            AND id in (
+            WHERE  id in (
+            SELECT "ir_ui_view".id FROM "ir_ui_view"
+            WHERE (("ir_ui_view"."active" = False)
+            AND (unaccent(COALESCE("ir_ui_view"."arch_db"->>'fr_FR',
+             "ir_ui_view"."arch_db"->>'en_US')) ilike unaccent('%classification_id%')))
+)
+        """,
+    )
+    openupgrade.logged_query(
+        env.cr,
+        """
+            UPDATE ir_ui_view set
+                active = False WHERE id in (
             SELECT "ir_ui_view".id FROM "ir_ui_view"
             WHERE (("ir_ui_view"."active" = true)
-            AND (unaccent(COALESCE("ir_ui_view"."arch_db"->>'fr_FR', "ir_ui_view"."arch_db"->>'en_US')) ilike unaccent('%classification_id%')))
-            ORDER BY  "ir_ui_view"."priority" ASC  LIMIT 80
-)
+            AND (unaccent(COALESCE("ir_ui_view"."arch_db"->>'fr_FR',
+            "ir_ui_view"."arch_db"->>'en_US')) ilike unaccent('%ecotaxe_classification_id%')))
+            ORDER BY  "ir_ui_view"."priority" ASC  LIMIT 80)
         """,
     )
