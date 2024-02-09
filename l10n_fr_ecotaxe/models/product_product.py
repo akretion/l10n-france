@@ -24,7 +24,8 @@ class ProductProduct(models.Model):
         search="_search_all_ecotaxe_line_product_ids",
         string="All ecotaxe lines",
     )
-    ecotaxe_amount = fields.Monetary(
+    ecotaxe_amount = fields.Float(
+        digits="Ecotaxe",
         compute="_compute_product_ecotaxe",
         help="Ecotaxe Amount computed form all ecotaxe line classification",
         store=True,

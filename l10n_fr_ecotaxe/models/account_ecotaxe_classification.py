@@ -23,7 +23,9 @@ class AccountEcotaxeClassification(models.Model):
         "the weight unit of measure (kg by default)",
     )
     ecotaxe_coef = fields.Float(digits="Ecotaxe")
-    default_fixed_ecotaxe = fields.Float(help="Default fixed ecotaxe amount.")
+    default_fixed_ecotaxe = fields.Float(
+        digits="Ecotaxe", help="Default fixed ecotaxe amount."
+    )
     categ_id = fields.Many2one(
         comodel_name="account.ecotaxe.category",
         string="Category",
