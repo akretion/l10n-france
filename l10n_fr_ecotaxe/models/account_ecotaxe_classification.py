@@ -83,6 +83,22 @@ class AccountEcotaxeClassification(models.Model):
     )
     emebi_code = fields.Char()
     scale_code = fields.Char()
+    sale_ecotaxe_ids = fields.Many2many(
+        "account.tax",
+        "ecotaxe_classif_taxes_rel",
+        "ecotaxe_classif_id",
+        "tax_id",
+        string="Sale EcoTaxe",
+        domain=[("is_ecotaxe", "=", True), ("type_tax_use", "=", "sale")],
+    )
+    purchase_ecotaxe_ids = fields.Many2many(
+        "account.tax",
+        "ecotaxe_classif_purchase_taxes_rel",
+        "ecotaxe_classif_id",
+        "tax_id",
+        string="Purchase EcoTaxe",
+        domain=[("is_ecotaxe", "=", True), ("type_tax_use", "=", "purchase")],
+    )
 
     @api.depends("ecotaxe_type")
     def _compute_ecotaxe_vals(self):

@@ -46,6 +46,8 @@
                             </tree>
                         </field>
                     </div>
+                    <field name="fixed_ecotaxe" />
+                    <field name="weight_based_ecotaxe" />
                     <field name="ecotaxe_amount" />
                 </group>
             </group>

@@ -45,6 +45,9 @@ class EcotaxeLineProduct(models.Model):
         "classification_id",
         "classification_id.ecotaxe_type",
         "classification_id.ecotaxe_coef",
+        "product_tmplt_id",
+        "product_tmplt_id.weight",
+        "product_id",
         "force_amount",
     )
     def _compute_ecotaxe(self):

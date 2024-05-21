@@ -11,6 +11,7 @@
     "license": "AGPL-3",
     "depends": [
         "account",
+        "account_tax_python",
     ],
     "data": [
         "data/decimal_precision.xml",
@@ -23,6 +24,7 @@
         "views/account_move_view.xml",
         "views/product_template_view.xml",
         "views/product_view.xml",
+        "views/account_tax_view.xml",
     ],
     "installable": True,
 }

@@ -20,6 +20,18 @@ class ProductTemplate(models.Model):
         help="Ecotaxe Amount computed form Classification",
         store=True,
     )
+    fixed_ecotaxe = fields.Float(
+        "Fixed Ecotaxe",
+        compute="_compute_ecotaxe",
+        help="Fixed ecotaxe of the " "Ecotaxe Classification\n",
+    )
+    weight_based_ecotaxe = fields.Float(
+        "Weight Based Ecotaxe",
+        compute="_compute_ecotaxe",
+        help="Ecotaxe value :\n"
+        "product weight * ecotaxe coef of "
+        "Ecotaxe Classification\n",
+    )
 
     @api.depends(
         "ecotaxe_line_product_ids",
@@ -32,15 +44,16 @@ class ProductTemplate(models.Model):
     def _compute_ecotaxe(self):
         for tmpl in self:
             amount_ecotaxe = 0.0
+            weight_based_ecotaxe = 0.0
+            fixed_ecotaxe = 0.0
             for ecotaxeline_prod in tmpl.ecotaxe_line_product_ids:
                 ecotax_cls = ecotaxeline_prod.classification_id
-                ecotaxe_line = 0.0
                 if ecotax_cls.ecotaxe_type == "weight_based":
-                    ecotaxe_line = ecotax_cls.ecotaxe_coef * (tmpl.weight or 0.0)
+                    weight_based_ecotaxe += ecotaxeline_prod.amount
                 else:
-                    ecotaxe_line = ecotax_cls.default_fixed_ecotaxe
-                # force ecotaxe amount by line
-                if ecotaxeline_prod.force_amount:
-                    ecotaxe_line = ecotaxeline_prod.force_amount
-                amount_ecotaxe += ecotaxe_line
+                    fixed_ecotaxe += ecotaxeline_prod.amount
+
+                amount_ecotaxe += ecotaxeline_prod.amount
+            tmpl.fixed_ecotaxe = fixed_ecotaxe
+            tmpl.weight_based_ecotaxe = weight_based_ecotaxe
             tmpl.ecotaxe_amount = amount_ecotaxe
