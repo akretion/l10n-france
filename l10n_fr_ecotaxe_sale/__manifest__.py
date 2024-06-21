@@ -11,8 +11,8 @@
     "license": "AGPL-3",
     "depends": ["l10n_fr_ecotaxe", "sale"],
     "data": [
-        "views/sale_view.xml",
-        "security/ir.model.access.csv",
+#        "views/sale_view.xml",
+#        "security/ir.model.access.csv",
     ],
     "installable": True,
 }
