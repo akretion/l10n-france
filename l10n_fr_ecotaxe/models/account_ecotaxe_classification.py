@@ -77,10 +77,3 @@ class AccountEcotaxeClassification(models.Model):
     )
     ecotaxe_deb_code = fields.Char()
     ecotaxe_scale_code = fields.Char()
-
-    @api.onchange("ecotaxe_type")
-    def _onchange_ecotaxe_type(self):
-        if self.ecotaxe_type == "weight_based":
-            self.default_fixed_ecotaxe = 0
-        if self.ecotaxe_type == "fixed":
-            self.ecotaxe_coef = 0
