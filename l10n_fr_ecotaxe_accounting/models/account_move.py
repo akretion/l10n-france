@@ -108,3 +108,18 @@ class AccountMove(models.Model):
         if self.ecotaxe_move_id:
             self.ecotaxe_move_id.button_cancel()
         return res
+
+    def button_draft(self):
+        ecotax_moves = self.ecotaxe_move_id
+        if ecotax_moves and self.env.user.id != 1:
+            raise exceptions.ValidationError(
+                _("This invoice can't be rested to draft because it has an ecotax")
+            )
+        return super().button_draft()
+
+    def action_post(self):
+        for refund in self.filtered(lambda m: m.move_type == 'out_refund'):
+            if refund.reversed_entry_id.ecotaxe_move_id and not refund.invoice_line_idstax_ids.filtered((t.is_ecotax)) and self.env.user.id != 1:
+                raise exceptions.ValidationError(
+                    _("This refund can't be validated because it does not have ecotax while the related invoice has some")
+                )

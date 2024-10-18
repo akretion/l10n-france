@@ -11,8 +11,8 @@
     "license": "AGPL-3",
     "depends": ["l10n_fr_ecotaxe"],
     "data": [
-        "views/account_ecotaxe_classification.xml",
-        "views/res_config_settings.xml",
+#        "views/account_ecotaxe_classification.xml",
+#        "views/res_config_settings.xml",
     ],
     "installable": True,
 }
