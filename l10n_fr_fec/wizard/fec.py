@@ -79,6 +79,7 @@ class AccountFrFec(models.TransientModel):
             'ValidDate',      # 15
             'Montantdevise',  # 16
             'Idevise',        # 17
+            'Idligne',        # 18
             ]
 
         company = self.fiscalyear_id.company_id
@@ -119,7 +120,8 @@ class AccountFrFec(models.TransientModel):
             amr.create_date::timestamp::date AS DateLet,
             am.date AS ValidDate,
             aml.amount_currency AS Montantdevise,
-            rc.name AS Idevise
+            rc.name AS Idevise,
+            aml.id AS Idligne
         FROM
             account_move_line aml
             LEFT JOIN account_move am ON am.id=aml.move_id
