@@ -147,7 +147,7 @@ class AccountFrFecOca(models.TransientModel):
             E'Résultat de l\\'exercice (Bénéfice)' AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
-            '-' AS PieceRef,
+            'OUVERTURE/' || %(formatted_date_year)s AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
             'Report à nouveau' AS EcritureLib,
             replace(
@@ -339,7 +339,7 @@ class AccountFrFecOca(models.TransientModel):
             replace(replace(MIN(aa.name), '|', '/'), '\t', '') AS CompteLib,
             '' AS CompAuxNum,
             '' AS CompAuxLib,
-            '-' AS PieceRef,
+            'OUVERTURE/' || %(formatted_date_year)s AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
             'Report à nouveau' AS EcritureLib,
             replace(
@@ -467,7 +467,7 @@ class AccountFrFecOca(models.TransientModel):
         """
             + aux_fields_ini_bal
             + """
-            '-' AS PieceRef,
+            'OUVERTURE/' || %(formatted_date_year)s AS PieceRef,
             %(formatted_date_from)s AS PieceDate,
             'Report à nouveau' AS EcritureLib,
             replace(
@@ -532,7 +532,7 @@ class AccountFrFecOca(models.TransientModel):
             + """
             CASE
                 WHEN am.ref IS null OR am.ref = ''
-                THEN '-'
+                THEN REGEXP_REPLACE(replace(am.name, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
                 ELSE REGEXP_REPLACE(replace(am.ref, '|', '/'), '[\\t\\r\\n]', ' ', 'g')
             END AS PieceRef,
             TO_CHAR(COALESCE(am.invoice_date, am.date), 'YYYYMMDD') AS PieceDate,
