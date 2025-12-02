@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="odoo.addons.account_move_mercanet_import.tests.test_mercanet_import.TestMercanetImport-20251202135142" tests="1" file="odoo/addons/account_move_mercanet_import/tests/test_mercanet_import.py" time="0.221" timestamp="2025-12-02T13:51:42" failures="0" errors="0" skipped="0">
+	<testcase classname="odoo.addons.account_move_mercanet_import.tests.test_mercanet_import.TestMercanetImport" name="test_import_csv_file" time="0.221" timestamp="2025-12-02T13:51:42" file="/odoo/local-src/account_move_mercanet_import/tests/test_mercanet_import.py" line="56"/>
+</testsuite>
