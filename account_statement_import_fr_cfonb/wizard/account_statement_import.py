@@ -164,9 +164,8 @@ class AccountStatementImport(models.TransientModel):
                 # too long labels with too much "pollution"
                 transactions[-1]["unique_import_id"] += complementary_info
                 if (
-                    complementary_info_type
-                    in self._get_allow_cfonb_complementary_types()
-                    and complementary_info
+                    complementary_info and
+                    complementary_info not in transactions[-1]["payment_ref"]
                 ):
                     transactions[-1]["payment_ref"] += " " + complementary_info
 
