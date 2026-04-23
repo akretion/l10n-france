@@ -11,7 +11,6 @@ class AccountMove(models.Model):
     @api.model
     def _cii_get_party_identification(self, commercial_partner):
         res = super()._cii_get_party_identification(commercial_partner)
-        # partner.siret has a value even if partner.nic == False
-        if commercial_partner.siren and commercial_partner.nic:
-            res["0002"] = commercial_partner.siret
+        if commercial_partner._get_siren():
+            res["0002"] = commercial_partner.siren
         return res
