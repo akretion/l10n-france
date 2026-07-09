@@ -12,7 +12,7 @@
     "author": "Akretion,Odoo Community Association (OCA)",
     "maintainers": ["alexis-via"],
     "website": "https://github.com/OCA/l10n-france",
-    "depends": ["l10n_fr", "account", "date_range"],
+    "depends": ["l10n_fr_account", "date_range"],
     "external_dependencies": {
         "python": ["unidecode"],
     },
