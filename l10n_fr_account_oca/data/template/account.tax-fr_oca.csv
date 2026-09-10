@@ -147,7 +147,7 @@ tva_sale_21_ttc,"TVA 2,1% TTC",2.1% VAT incl.,"TVA 2,1% TTC",2.1,percent,10,sale
 ,,,,,,,,,,,,,,100,tax,invoice,pcg_445714,,,,
 ,,,,,,,,,,,,,,100,base,refund,,,,,
 ,,,,,,,,,,,,,,100,tax,refund,pcg_445714,,,,
-tva_sale_0_exo,TVA 0% exonéré,0% VAT exonerated,TVA 0% exonéré,0.0,percent,10,sale,,1,tax_group_tva_0,,,,100,base,invoice,,TVA 0% exonéré,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_e
+tva_sale_0_exo,TVA 0% exonéré,0% VAT exonerated,TVA 0% exonéré,0.0,percent,10,sale,,1,tax_group_tva_0,0,,,100,base,invoice,,TVA 0% exonéré,,account_tax_unece.tax_type_vat,account_tax_unece.tax_categ_e
 ,,,,,,,,,,,,,,100,tax,invoice,,,,,
 ,,,,,,,,,,,,,,100,base,refund,,,,,
 ,,,,,,,,,,,,,,100,tax,refund,,,,,
