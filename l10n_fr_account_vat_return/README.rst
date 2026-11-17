@@ -31,9 +31,9 @@ France VAT Return
 This module adds support for the French VAT declaration *CA3* (monthly
 or quarterly):
 
--  computation of the boxes of the CA3 form,
--  print the CA3 PDF,
--  generate the corresponding journal entry.
+- computation of the boxes of the CA3 form,
+- print the CA3 PDF,
+- generate the corresponding journal entry.
 
 It can also be used for the smaller companies which have a yearly CA12
 VAT declaration. But, for CA12, the generation of the PDF and the
@@ -43,8 +43,8 @@ the equivalent box in the CA12.
 
 This module also supports:
 
--  declaration 3519 for the reimbursement of VAT credit,
--  declaration 3310-A (CA3 Appendix) for the additional taxes
+- declaration 3519 for the reimbursement of VAT credit,
+- declaration 3310-A (CA3 Appendix) for the additional taxes
 
 For the CA3 Appendix, the taxes that target few large companies such as
 taxe sur les sociétés d'autoroute, taxe sur les éoliennes en mer, taxe
@@ -79,7 +79,7 @@ Authors
 Contributors
 ------------
 
--  Alexis de Lattre <alexis.delattre@akretion.com>
+- Alexis de Lattre <alexis.delattre@akretion.com>
 
 Maintainers
 -----------

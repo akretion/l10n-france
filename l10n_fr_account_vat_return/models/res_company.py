@@ -108,7 +108,6 @@ class ResCompany(models.Model):
         ]
         return res
 
-
     @api.model
     def _fr_vat_exigibility_selection(self):
         res = [
@@ -442,7 +441,15 @@ class ResCompany(models.Model):
         # Set 658/758 accounts
         self._fr_vat_init_adjustment_accounts()
         # activate all taxes
-        ato.search(cdomain + [("active", "=", False)]).write({"active": True})
+        inactive_taxes = ato.search(cdomain + [("active", "=", False)])
+        inactive_taxes.filtered(
+            lambda tax: tax.type_tax_use == "sale"
+            and tax.unece_categ_code == "E"
+            and not tax.unece_vatex_id
+        ).write(
+            {"unece_vatex_id": self.env.ref("account_tax_unece.tax_vatex_eu_132").id}
+        )
+        inactive_taxes.write({"active": True})
         # France autoliq taxes for BTP subcontracting
         btp_account_map = {
             "445401": "TVA due sur achats sous-traitance BTP 20% (autoliquidation)",
