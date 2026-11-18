@@ -4,6 +4,7 @@
 
 from collections import defaultdict
 from datetime import datetime
+from unittest.mock import patch
 
 from dateutil.relativedelta import relativedelta
 
@@ -19,6 +20,21 @@ class TestFrAccountVatReturn(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
+        # account_payment_batch_oca (dependency of account_payment_fr_lcr)
+        # overrides _get_invoice_in_payment_state() to always return
+        # 'in_payment'. Odoo uses this hook to detect the accountant module and
+        # then doesn't set the outstanding account on the payments created by
+        # account.payment.register => no journal entry, no reconciliation.
+        # we patch it here gobally to force the same behavior with or without
+        # the account_payment_fr_lcr or enterprise modules. This forces the use
+        # of outsanding account for the tests.
+        patcher = patch.object(
+            cls.env.registry["account.move"],
+            "_get_invoice_in_payment_state",
+            lambda *args, **kwargs: "paid",
+        )
+        patcher.start()
+        cls.addClassCleanup(patcher.stop)
         cls.today = datetime.now().date()
         cls.start_date = cls.today + relativedelta(months=-1, day=1)
         cls.before_start_date = cls.start_date + relativedelta(days=-1)
